@@ -1,0 +1,54 @@
+{
+  "framework_config": {
+
+    "audit_policy": {
+      "bronze_columns": [
+        "_AdfPipelineRunId",
+        "_IngestionTimestamp"
+      ],
+      "silver_columns": [
+        "_AdfPipelineRunId",
+        "_IngestionTimestamp",
+        "_ProcessedTimestamp",
+        "_IsRejected",
+        "_RejectReason"
+      ]
+    },
+
+"execution_audit_policy": {
+  "enabled": true,
+
+  "catalog": "capstone_project",
+  "schema": "audit_layer",
+  "table": "audit_execution_log",
+
+  "write_mode": "append"
+},
+
+    "schema_policy": {
+      "allow_new_columns": true,
+      "allow_missing_columns": false,
+      "allow_datatype_changes": false,
+      "reject_missing_mandatory": true,
+      "audit_schema_changes": true,
+      "audit_schema_changes_table": "audit_schema_changes",
+      "new_column_action": "ACCEPT",
+      "missing_column_action": "REJECT",
+      "datatype_change_action": "REJECT"
+    },
+
+    "reject_policy": {
+      "store_rejected_records": true,
+      "store_rejected_files": true,
+      "store_reject_reason": true,
+      "silver_reject_mode": "ROW_LEVEL"
+    },
+
+    "merge_policy": {
+      "bronze_load_mode": "append",
+      "silver_load_mode": "merge",
+      "gold_load_mode": "merge"
+    }
+
+  }
+}
