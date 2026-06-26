@@ -1,0 +1,87 @@
+{
+  "Orders": {
+
+    "source_name": "Orders",
+
+    "source_type": "File",
+
+    "format": "CSV",
+
+    "source_location": "orders.csv",
+
+    "ingestion_type": "DailyDelta",
+
+    "bronze_table": "bronze_orders",
+
+    "silver_table": "silver_orders",
+
+    "reject_table": "reject_orders",
+
+    "incremental_config": {
+      "load_strategy": "incremental",
+      "watermark_column": "OrderDate",
+      "partition_column": "OrderDate"
+    },
+
+    "columns": {
+
+      "OrderID": {
+        "datatype": "int",
+        "nullable": false,
+        "key_type": "PK"
+      },
+
+      "CustomerID": {
+        "datatype": "int",
+        "nullable": false,
+        "key_type": "FK",
+        "reference_table": "silver_customers_scd2",
+        "reference_column": "CustomerID"
+      },
+
+      "ProductID": {
+        "datatype": "int",
+        "nullable": false,
+        "key_type": "FK",
+        "reference_table": "silver_products",
+        "reference_column": "ProductID"
+      },
+
+      "OrderDate": {
+        "datatype": "date",
+        "nullable": false
+      },
+
+      "Quantity": {
+        "datatype": "int",
+        "nullable": false
+      },
+
+      "UnitPrice": {
+        "datatype": "double",
+        "nullable": false
+      },
+
+      "StoreCode": {
+        "datatype": "string",
+        "nullable": false,
+        "key_type": "BK"
+      }
+    },
+
+    "validation_rules": {
+
+      "Quantity": {
+        "rule_type": "greater_than",
+        "value": 0,
+        "severity": "ERROR"
+      },
+
+      "UnitPrice": {
+        "rule_type": "greater_than",
+        "value": 0,
+        "severity": "ERROR"
+      }
+    }
+  }
+}

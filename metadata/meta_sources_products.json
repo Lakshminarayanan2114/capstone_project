@@ -1,0 +1,66 @@
+{
+  "Products": {
+
+    "source_name": "Products",
+
+    "source_type": "File",
+
+    "format": "CSV",
+
+    "source_location": "products.csv",
+
+    "ingestion_type": "WeeklyFullRefresh",
+
+    "bronze_table": "bronze_products",
+
+    "silver_table": "silver_products",
+
+    "reject_table": "reject_products",
+
+    "incremental_config": {
+      "load_strategy": "full_refresh"
+    },
+
+    "columns": {
+
+      "ProductID": {
+        "datatype": "int",
+        "nullable": false,
+        "key_type": "PK"
+      },
+
+      "ProductName": {
+        "datatype": "string",
+        "nullable": false
+      },
+
+      "Category": {
+        "datatype": "string",
+        "nullable": false
+      },
+
+      "SubCategory": {
+        "datatype": "string",
+        "nullable": false
+      },
+
+      "Brand": {
+        "datatype": "string",
+        "nullable": true
+      },
+
+      "CostPrice": {
+        "datatype": "double",
+        "nullable": false
+      }
+    },
+
+    "validation_rules": {
+      "CostPrice": {
+        "rule_type": "greater_than",
+        "value": 0,
+        "severity": "ERROR"
+      }
+    }
+  }
+}

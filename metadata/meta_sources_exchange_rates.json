@@ -1,0 +1,79 @@
+{
+  "ExchangeRates": {
+
+    "source_name": "ExchangeRates",
+
+    "source_type": "REST",
+
+    "format": "JSON",
+
+    "source_location": "REST_ENDPOINT",
+
+    "ingestion_type": "DailyAPI",
+
+    "bronze_table": "bronze_exchange_rates",
+
+    "silver_table": "silver_exchange_rates",
+
+    "reject_table": "reject_exchange_rates",
+
+    "incremental_config": {
+
+      "load_strategy": "incremental",
+
+      "watermark_column": "exchange_data_rate_groups_currencies_rate_details_rate_date"
+
+    },
+
+    "columns": {
+
+      "exchange_data_base_currency": {
+        "datatype": "string",
+        "nullable": false
+      },
+
+      "exchange_data_rate_groups_region_name": {
+        "datatype": "string",
+        "nullable": false
+      },
+
+      "exchange_data_rate_groups_currencies_currency_info_target_currency": {
+        "datatype": "string",
+        "nullable": false
+      },
+
+      "exchange_data_rate_groups_currencies_rate_details_exchange_rate": {
+        "datatype": "double",
+        "nullable": false
+      },
+
+      "exchange_data_rate_groups_currencies_rate_details_rate_date": {
+        "datatype": "date",
+        "nullable": false
+      }
+    },
+
+    "composite_key": [
+
+      "exchange_data_rate_groups_currencies_currency_info_target_currency",
+
+      "exchange_data_rate_groups_currencies_rate_details_rate_date"
+
+    ],
+
+    "validation_rules": {
+
+      "exchange_data_rate_groups_currencies_rate_details_exchange_rate": {
+
+        "rule_type": "greater_than",
+
+        "value": 0,
+
+        "severity": "ERROR"
+
+      }
+
+    }
+
+  }
+}
